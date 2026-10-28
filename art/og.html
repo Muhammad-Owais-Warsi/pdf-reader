@@ -1,0 +1,103 @@
+<!doctype html>
+<!-- Source for public/og.png (1200×630). Re-render with: node art/make-og.mjs -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; margin: 0; }
+      body {
+        width: 1200px; height: 630px; overflow: hidden; position: relative;
+        font-family: Inter, sans-serif; color: #1d1c1a;
+        background:
+          radial-gradient(700px 420px at 92% -10%, rgb(247 201 72 / 0.22), transparent 70%),
+          radial-gradient(560px 360px at -8% 105%, rgb(147 197 242 / 0.18), transparent 70%),
+          #f6f4ef;
+      }
+      .brand { position: absolute; top: 64px; left: 80px; display: flex; align-items: center; gap: 14px; }
+      .brand img { width: 52px; height: 52px; }
+      .brand span { font-family: Newsreader, serif; font-size: 34px; letter-spacing: -0.01em; }
+      h1 {
+        position: absolute; top: 172px; left: 80px; width: 600px;
+        font-family: Newsreader, serif; font-weight: 400; font-size: 82px; line-height: 1.02; letter-spacing: -0.02em;
+      }
+      em {
+        padding: 0 0.06em;
+        background: linear-gradient(transparent 58%, rgb(247 201 72 / 0.7) 58%, rgb(247 201 72 / 0.7) 92%, transparent 92%);
+        box-decoration-break: clone;
+      }
+      .sub { position: absolute; top: 470px; left: 80px; width: 520px; font-size: 23px; line-height: 1.45; color: #6f6a61; }
+
+      .stage { position: absolute; top: 0; right: 0; width: 520px; height: 630px; }
+      .back, .sheet { position: absolute; border-radius: 4px; box-shadow: 0 0 0 1px rgb(0 0 0 / 0.04), 0 2px 4px rgb(0 0 0 / 0.04), 0 18px 40px -14px rgb(0 0 0 / 0.18); }
+      .back { top: 98px; left: 150px; width: 320px; height: 460px; background: #fdfcfa; transform: rotate(5deg); }
+      .sheet { top: 72px; left: 110px; width: 330px; height: 470px; background: #fff; transform: rotate(-2deg); padding: 40px 36px; }
+      .title { height: 15px; width: 160px; border-radius: 99px; background: rgb(0 0 0 / 0.82); }
+      .meta { margin-top: 10px; height: 9px; width: 90px; border-radius: 99px; background: rgb(0 0 0 / 0.2); }
+      .para { margin-top: 26px; display: grid; gap: 12px; }
+      .line { height: 9px; border-radius: 99px; background: rgb(0 0 0 / 0.09); position: relative; }
+      .line.hl { background: rgb(0 0 0 / 0.15); }
+      .line.hl::before { content: ""; position: absolute; inset: -6px -8px; z-index: -1; border-radius: 3px; background: var(--c); opacity: 0.65; }
+      .amber { --c: #f7c948; } .sage { --c: #9fd3a0; }
+
+      .note {
+        position: absolute; left: 20px; bottom: 70px; width: 250px; padding: 18px;
+        background: #fdfcfa; border: 1px solid #e6e2d9; border-radius: 14px;
+        box-shadow: 0 22px 40px -14px rgb(0 0 0 / 0.18);
+      }
+      .note .q { display: flex; gap: 12px; font-family: Newsreader, serif; font-style: italic; font-size: 16px; line-height: 1.35; color: #6f6a61; }
+      .note .q::before { content: ""; width: 3px; flex: none; border-radius: 99px; background: #f7c948; }
+      .note .n { margin-top: 12px; padding: 9px 12px; border: 1px solid #e6e2d9; border-radius: 9px; background: #f6f4ef; font-size: 14.5px; line-height: 1.45; }
+
+      .bar {
+        position: absolute; top: 190px; left: 70px; display: flex; align-items: center; gap: 5px;
+        padding: 7px; border-radius: 99px; background: #1d1c1a; box-shadow: 0 16px 30px -10px rgb(0 0 0 / 0.35);
+      }
+      .bar i { width: 22px; height: 22px; border-radius: 50%; }
+      .bar b { width: 1px; height: 15px; background: rgb(246 244 239 / 0.25); margin: 0 4px; }
+      .bar span { padding: 0 8px 0 2px; color: #f6f4ef; font-size: 13px; font-weight: 500; }
+    </style>
+  </head>
+  <body>
+    <div class="brand"><img src="../public/icon-512.png" alt="" /><span>Reader</span></div>
+    <h1>Read slowly.<br /><em>Keep what matters.</em></h1>
+    <p class="sub">A calm PDF reader in your browser. Highlight, take notes, pick up where you left off.</p>
+
+    <div class="stage">
+      <div class="back"></div>
+      <div class="sheet">
+        <div class="title"></div>
+        <div class="meta"></div>
+        <div class="para">
+          <div class="line" style="width: 100%"></div>
+          <div class="line" style="width: 93%"></div>
+          <div class="line" style="width: 97%"></div>
+          <div class="line" style="width: 60%"></div>
+        </div>
+        <div class="para">
+          <div class="line" style="width: 96%"></div>
+          <div class="line hl amber" style="width: 100%"></div>
+          <div class="line hl amber" style="width: 86%"></div>
+          <div class="line" style="width: 95%"></div>
+          <div class="line" style="width: 48%"></div>
+        </div>
+        <div class="para">
+          <div class="line" style="width: 99%"></div>
+          <div class="line hl sage" style="width: 74%"></div>
+          <div class="line" style="width: 92%"></div>
+          <div class="line" style="width: 64%"></div>
+        </div>
+      </div>
+      <div class="bar">
+        <i style="background: #f7c948"></i><i style="background: #9fd3a0"></i><i style="background: #f4a6b8"></i><i style="background: #93c5f2"></i>
+        <b></b><span>Note</span>
+      </div>
+      <div class="note">
+        <p class="q">“…the habit of attention is the whole of reading.”</p>
+        <p class="n">Come back to this before chapter 4.</p>
+      </div>
+    </div>
+  </body>
+</html>
