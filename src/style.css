@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", ui-serif, Georgia, serif;
+
+  --color-paper: #f6f4ef;
+  --color-surface: #fdfcfa;
+  --color-ink: #1d1c1a;
+  --color-muted: #858076;
+  --color-line: #e6e2d9;
+  --color-line-strong: #cfc9bc;
+
+  --color-hl-amber: #f7c948;
+  --color-hl-sage: #9fd3a0;
+  --color-hl-rose: #f4a6b8;
+  --color-hl-sky: #93c5f2;
+
+  --shadow-page: 0 0 0 1px rgb(0 0 0 / 0.04), 0 2px 4px rgb(0 0 0 / 0.04), 0 12px 32px -12px rgb(0 0 0 / 0.14);
+}
+
+/* Dark theme: html.dark is set by theme.ts (and the inline script in index.html) from the saved choice or the system. */
+html.dark {
+  color-scheme: dark;
+  --color-paper: #1a1918;
+  --color-surface: #23221f;
+  --color-ink: #ebe8e2;
+  --color-muted: #8f8a80;
+  --color-line: #2e2c29;
+  --color-line-strong: #46433d;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-hl-sky) 45%, transparent);
+  }
+}
+
+/* Library */
+
+.library-glow {
+  background:
+    radial-gradient(60rem 32rem at 90% -12%, color-mix(in srgb, var(--color-hl-amber) 16%, transparent), transparent 70%),
+    radial-gradient(44rem 26rem at -12% 6%, color-mix(in srgb, var(--color-hl-sky) 13%, transparent), transparent 70%);
+}
+
+.marker {
+  --marker: color-mix(in srgb, var(--color-hl-amber) 65%, transparent);
+  padding: 0 0.06em;
+  background-image: linear-gradient(transparent 58%, var(--marker) 58%, var(--marker) 92%, transparent 92%);
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+  animation: marker-in 1.1s 0.3s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@keyframes marker-in {
+  from { background-size: 0% 100%; }
+  to { background-size: 100% 100%; }
+}
+
+.illo-hl::before {
+  content: "";
+  position: absolute;
+  inset: -5px -7px;
+  z-index: -1;
+  border-radius: 3px;
+  background: var(--c);
+  opacity: 0.6;
+}
+.illo-hl-amber { --c: var(--color-hl-amber); }
+.illo-hl-sage { --c: var(--color-hl-sage); }
+.illo-hl-rose { --c: var(--color-hl-rose); }
+
+.illo-float { animation: float 6s ease-in-out infinite; }
+.illo-float-late { animation: float 7s 1.2s ease-in-out infinite; }
+@keyframes float {
+  50% { translate: 0 -6px; }
+}
+
+.dark .marker { --marker: color-mix(in srgb, var(--color-hl-amber) 32%, transparent); }
+.dark .illo-sheet { filter: brightness(0.9); }
+
+@media (prefers-reduced-motion: reduce) {
+  .marker, .illo-float, .illo-float-late { animation: none; }
+}
+
+/* Page */
+
+.page {
+  isolation: isolate;
+  --scale-round-x: 1px;
+  --scale-round-y: 1px;
+}
+
+.dark .page {
+  filter: brightness(0.9);
+}
+
+/* Highlights */
+
+.hl-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Blend the whole layer, not each .hl: the layer's z-index isolates its children. */
+  mix-blend-mode: multiply;
+}
+
+.hl {
+  position: absolute;
+  border-radius: 2px;
+  background: var(--hl);
+  opacity: 0.5;
+  transition: opacity 0.15s, box-shadow 0.15s;
+}
+.hl[data-color="amber"] { --hl: var(--color-hl-amber); }
+.hl[data-color="sage"] { --hl: var(--color-hl-sage); }
+.hl[data-color="rose"] { --hl: var(--color-hl-rose); }
+.hl[data-color="sky"] { --hl: var(--color-hl-sky); }
+.hl.active { opacity: 0.85; }
+.hl.flash { animation: hl-flash 1.4s ease-out; }
+
+/* Two quick pulses with a glow that spreads out, so a highlight you jumped to is easy to spot. */
+@keyframes hl-flash {
+  0% { opacity: 0.85; box-shadow: 0 0 0 0 transparent; }
+  15% { opacity: 1; box-shadow: 0 0 0 6px color-mix(in srgb, var(--hl) 75%, transparent); }
+  35% { opacity: 1; box-shadow: 0 0 0 2px var(--hl); }
+  55% { opacity: 1; box-shadow: 0 0 0 7px color-mix(in srgb, var(--hl) 60%, transparent); }
+  100% { opacity: 0.85; box-shadow: 0 0 0 16px transparent; }
+}
+
+.over-hl .textLayer span {
+  cursor: pointer;
+}
+
+/* Links */
+
+.link-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.link-layer a {
+  position: absolute;
+  border-radius: 2px;
+  pointer-events: auto;
+  transition: background-color 0.15s;
+}
+.link-layer a:hover {
+  background: color-mix(in srgb, var(--color-hl-sky) 30%, transparent);
+}
+
+/* PDF.js text layer, adapted from pdfjs-dist/web/pdf_viewer.css */
+
+.textLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: clip;
+  text-align: initial;
+  line-height: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+.textLayer :is(span, br) {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+.textLayer > :not(.markedContent),
+.textLayer .markedContent span:not(.markedContent) {
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+.textLayer .markedContent {
+  display: contents;
+}
+.textLayer span[role="img"] {
+  user-select: none;
+  cursor: default;
+}
+.textLayer ::selection {
+  background: color-mix(in srgb, var(--color-hl-sky) 55%, transparent);
+  color: transparent;
+}
+.textLayer br::selection,
+.textLayer.selectionRendering ::selection {
+  background: transparent;
+}
+.textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+.textLayer.selecting .endOfContent {
+  top: 0;
+}
