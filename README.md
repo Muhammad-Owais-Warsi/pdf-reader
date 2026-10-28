@@ -19,7 +19,7 @@ Your files never leave your device. PDFs, highlights and notes are stored locall
 
 ## Getting started
 
-Requires Node.js 20.19 or later.
+Requires Node.js 20.19+ or 22.12+.
 
 ```bash
 npm install
